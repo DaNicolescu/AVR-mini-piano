@@ -1,0 +1,42 @@
+Nicolescu Daniel-Marian
+334CB
+
+-------------------------------------------------------
+*******************************************************
+
+  ██████╗ ███████╗ █████╗ ██████╗ ███╗   ███╗███████╗
+  ██╔══██╗██╔════╝██╔══██╗██╔══██╗████╗ ████║██╔════╝
+  ██████╔╝█████╗  ███████║██║  ██║██╔████╔██║█████╗  
+  ██╔══██╗██╔══╝  ██╔══██║██║  ██║██║╚██╔╝██║██╔══╝  
+  ██║  ██║███████╗██║  ██║██████╔╝██║ ╚═╝ ██║███████╗
+  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚══════╝
+                                                   
+*******************************************************
+-------------------------------------------------------
+
+Redarea sunetelor este realizată folosind 4 sample-uri, fiecare aflat într-un
+fișier header separat. 3 dintre ele sunt pentru claviatură, iar cel de-al
+patrulea pentru funcția de tobă.
+Din cauza limitării de spațiu (doar 32k) nu am putut folosi câte un sample
+pentru fiecare buton în parte. Fiecare sample de pian are aproximativ 8k,
+ce corespunde unui timp de redare de 1s la un sampling rate de 8kHz,
+iar sample-ul de tobă are 1.6k, ce corespunde unui timp de redare de 0.2s,
+tot la un sampling rate de 8k.
+Pentru a reda 8 sunete diferite folosind doar 3 sample-uri de pian,
+sample-urile 1 și 3 sunt folosite pentru a reda câte 2 note fiecare prin
+creșterea sampling rate-ului de la 8kHz la 13kHz, respectiv 11kHz.
+Sample-ul 2 este folosit petru redarea a 4 sunete diferite prin creșterea
+sampling rate-ului de la 8khz la 11kHz, 14kHz, respectiv 16kHz.
+Pentru verificarea apăsării butoanelor claviaturii și butoanelor de control
+am folosit timer-ul 2, astfel, la fiecare 0.02s se verifică dacă vreun
+buton a fost apăsat. 
+
+Timer-ele 0 și 1 sunt folosite pentru redarea sunetelor. Timer-ul 0 este
+folosit pentru sampling rate. Acesta la fiecare întrerupere modifcă valoarea
+lui OCR1B cu următoarea valoare din vectorul ce corespunde sample-ului ce
+trebuie redat. Timer-ul 1 este folosit în mod PWM.
+Deoarece microcontroller-ul are doar 2kB de ram sample-urile au fost puse
+în memoria Flash foloind directiva PROGMEM.
+
+Folosind toate cele 3 timere, aproape toată logica programului se află în
+handler-ele de întreruperi.
